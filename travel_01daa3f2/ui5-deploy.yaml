@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: '2.4'
+metadata:
+  name: 'travel_01daa3f2'
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: https://44fbbf39-44b5-48cb-9800-cbb9cbadbedf.abap.us10.hana.ondemand.com
+          scp: true
+        app:
+          name: TRAVEL_01DAA3F2
+          description: null
+          package: ZLOCAL
+          transport: ""

@@ -1,0 +1,39 @@
+{
+    "name": "bookinganalysis",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "sapuxLayer": "CUSTOMER_BASE",
+    "description": "Application that shows analysis of bookings",
+    "keywords": [
+        "ui5",
+        "openui5",
+        "sapui5"
+    ],
+    "main": "webapp/index.html",
+    "scripts": {
+        "start": "fiori run --open 'test/flpSandbox.html#bookinganalysis-tile'",
+        "start-local": "fiori run --config ./ui5-local.yaml --open 'test/flpSandboxMockServer.html#bookinganalysis-tile'",
+        "start-noflp": "fiori run --open 'index.html'",
+        "start-variants-management": "fiori run --open \"preview.html?fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
+        "build": "ui5 build -a --clean-dest --include-task=generateManifestBundle generateCachebusterInfo",
+        "deploy": "npm run build && fiori deploy --config ui5-deploy.yaml && rimraf archive.zip",
+        "deploy-config": "fiori add deploy-config",
+        "start-mock": "fiori run --open 'test/flpSandboxMockServer.html#bookinganalysis-tile'",
+        "undeploy": "fiori undeploy --config ui5-deploy.yaml",
+        "deploy-test": "npm run build && fiori deploy --config ui5-deploy.yaml --testMode true"
+    },
+    "devDependencies": {
+        "@ui5/cli": "^2.11.1",
+        "@ui5/fs": "^2.0.6",
+        "@ui5/logger": "^2.0.1",
+        "@sap/ux-ui5-tooling": "1",
+        "rimraf": "3.0.2",
+        "@sap/ux-specification": "latest"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap/ux-ui5-tooling"
+        ]
+    }
+}
