@@ -57,7 +57,54 @@
                         </Record>
                     </Collection>
                 </Annotation>
+
+                <Annotation Term="UI.Chart" Qualifier="FlightPriceByAirlineDonut">
+                    <Record>
+                        <PropertyValue Property="Title" String="Flight Cost By Airlines"/>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="FlightPrice"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="CarrierName"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="PriceByAirline">
+                    <Record>
+                        <PropertyValue Property="Title" String="Price by Different Airlines"/>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="FlightPrice"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="CarrierName"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
+                        <PropertyValue Property="Description" String="REPLACE_WITH_CHART_DESC"/>
+                    </Record>
+                </Annotation>
             </Annotations>
+    
         
         </Schema>
     </edmx:DataServices>
