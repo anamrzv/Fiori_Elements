@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: '2.4'
+metadata:
+  name: 'bookingoverview'
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: https://44fbbf39-44b5-48cb-9800-cbb9cbadbedf.abap.us10.hana.ondemand.com
+          scp: true
+        app:
+          name: BOOKINGOVERVIEW
+          description: null
+          package: ZLOCAL
+          transport: ""
