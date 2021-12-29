@@ -1,4 +1,7 @@
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
         <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
     </edmx:Reference>
@@ -14,13 +17,44 @@
     </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="sap.products">
+        <Annotations Target="ODataWeb.Northwind.Model.NorthwindEntities/Products">
+            <Annotation Term="Capabilities.SearchRestrictions">
+                <Record Type="Capabilities.SearchRestrictionsType">
+                    <PropertyValue Property="Searchable" Bool="false"/>
+                </Record>
+            </Annotation>
+            <Annotation Term="Capabilities.DeleteRestrictions">
+                <Record Type="Capabilities.DeleteRestrictionsType">
+                    <PropertyValue Property="Deletable" Bool="false"/>
+                </Record>
+            </Annotation>
+            <Annotation Term="Capabilities.InsertRestrictions">
+                <Record Type="Capabilities.InsertRestrictionsType">
+                    <PropertyValue Property="Insertable" Bool="false"/>
+                </Record>
+            </Annotation>
+        </Annotations>
         <Annotations Target="NorthwindModel.Product/ProductName">
             <Annotation Term="Common.Label" String="{@i18n>product}"/>
+            <Annotation Term="Common.ValueList">
+                <Record Type="Common.ValueListType">
+                    <PropertyValue Property="CollectionPath" String="Alphabetical_list_of_products"/>
+                    <PropertyValue Property="Parameters">
+                        <Collection>
+                            <Record Type="Common.ValueListParameterOut">
+                                <PropertyValue Property="LocalDataProperty" PropertyPath="ProductName"/>
+                                <PropertyValue Property="ValueListProperty" String="ProductName"/>
+                            </Record>
+                        </Collection>
+                    </PropertyValue>
+                </Record>
+            </Annotation>
+            <Annotation Term="Common.ValueListWithFixedValues"/>
         </Annotations>
         <Annotations Target="NorthwindModel.Product/ProductID">
         <Annotation Term="Common.Text" Path="ProductName"/>
         </Annotations>
-        <Annotations Target="NorthwindModel.Product">
+        <Annotations Target="NorthwindModel.Product"> 
             <Annotation Term="UI.SelectionFields" >
                 <Collection>
                     <PropertyPath>ProductName</PropertyPath>
@@ -37,6 +71,35 @@
                     <PropertyValue Property="TypeNamePlural" String="{@i18n>products}"/>
                 </Record>
             </Annotation>
+            <Annotation Term="UI.DataPoint" Qualifier="StockQualifier">
+                <Record Type="UI.DataPointType">
+                    <PropertyValue Property="Value" Path="UnitsInStock"/>
+                    <PropertyValue Property="CriticalityCalculation">
+                        <Record Type="UI.CriticalityCalculationType">
+                            <PropertyValue Property="ImprovementDirection" EnumMember="UI.ImprovementDirectionType/Maximize"/>
+                            <PropertyValue Property="DeviationRangeLowValue" Path="ReorderLevel"/>
+                            <PropertyValue Property="ToleranceRangeLowValue" Path="ReorderLevel"/>
+                        </Record>
+                    </PropertyValue>
+                </Record>
+            </Annotation>
+            <Annotation Term="UI.Chart" Qualifier="StockQualifier">
+                <Record Type="UI.ChartDefinitionType">
+                    <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bullet"/>
+                    <PropertyValue Property="Measures">
+                        <Collection>
+                            <PropertyPath>UnitsInStock</PropertyPath>
+                        </Collection>
+                    </PropertyValue>
+                    <PropertyValue Property="MeasureAttributes">
+                        <Collection>
+                            <Record Type="UI.ChartMeasureAttributeType">
+                                <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#StockQualifier"/>
+                            </Record>
+                        </Collection>
+                    </PropertyValue>
+                </Record>
+            </Annotation>
             <Annotation Term="UI.LineItem" >
                 <Collection>
                     <Record Type="UI.DataField">
@@ -51,8 +114,8 @@
                         <PropertyValue Property="Value" Path="ReorderLevel"/>
                         <PropertyValue Property="Label" String="{@i18n>reorderLevel}"/>
                     </Record>
-                    <Record Type="UI.DataField">
-                        <PropertyValue Property="Value" Path="UnitsInStock"/>
+                    <Record Type="UI.DataFieldForAnnotation">
+                        <PropertyValue Property="Target" AnnotationPath="@UI.Chart#StockQualifier"/>
                         <PropertyValue Property="Label" String="{@i18n>inStock}"/>
                     </Record>
                     <Record Type="UI.DataField">
