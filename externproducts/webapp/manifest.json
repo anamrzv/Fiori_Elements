@@ -1,7 +1,7 @@
 {
     "_version": "1.32.0",
     "sap.app": {
-        "id": "sap.booking.bookinganalysis",
+        "id": "sap.products.externproducts",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -12,24 +12,16 @@
         "tags": {
             "keywords": []
         },
+        "resources": "resources.json",
         "dataSources": {
             "mainService": {
-                "uri": "/sap/opu/odata/sap/ZUI_FE_BOOKING_000217_O2/",
+                "uri": "/V2/Northwind/Northwind.svc/",
                 "type": "OData",
                 "settings": {
                     "annotations": [
-                        "ZUI_FE_BOOKING_000217_O2_VAN",
                         "annotation"
                     ],
-                    "localUri": "localService/metadata.xml",
-                    "odataVersion": "2.0"
-                }
-            },
-            "ZUI_FE_BOOKING_000217_O2_VAN": {
-                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZUI_FE_BOOKING_000217_O2_VAN',Version='0001')/$value/",
-                "type": "ODataAnnotation",
-                "settings": {
-                    "localUri": "localService/ZUI_FE_BOOKING_000217_O2_VAN.xml"
+                    "localUri": "localService/metadata.xml"
                 }
             },
             "annotation": {
@@ -47,13 +39,13 @@
         },
         "crossNavigation": {
             "inbounds": {
-                "sap-booking-bookinganalysis-inbound": {
+                "sap-products-externproducts-inbound": {
                     "signature": {
                         "parameters": {},
                         "additionalParameters": "allowed"
                     },
-                    "semanticObject": "Booking",
-                    "action": "analysis",
+                    "semanticObject": "Products",
+                    "action": "display",
                     "title": "{{flpTitle}}",
                     "subTitle": "{{flpSubtitle}}",
                     "icon": ""
@@ -78,7 +70,8 @@
         },
         "supportedThemes": [
             "sap_hcb",
-            "sap_belize"
+            "sap_belize",
+            "sap_fiori_3"
         ]
     },
     "sap.ui5": {
@@ -87,7 +80,7 @@
             "css": []
         },
         "dependencies": {
-            "minUI5Version": "1.97.1",
+            "minUI5Version": "1.97.0",
             "libs": {
                 "sap.ui.core": {
                     "lazy": false
@@ -104,20 +97,19 @@
         "models": {
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/i18n.properties",
-                "preload": false
+                "uri": "i18n/i18n.properties"
             },
             "@i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "uri": "i18n/i18n.properties"
             },
-            "i18n|sap.suite.ui.generic.template.ListReport|Booking": {
+            "i18n|sap.suite.ui.generic.template.ListReport|Products": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/ListReport/Booking/i18n.properties"
+                "uri": "i18n/ListReport/Products/i18n.properties"
             },
-            "i18n|sap.suite.ui.generic.template.ObjectPage|Booking": {
+            "i18n|sap.suite.ui.generic.template.ObjectPage|Products": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/ObjectPage/Booking/i18n.properties"
+                "uri": "i18n/ObjectPage/Products/i18n.properties"
             },
             "": {
                 "dataSource": "mainService",
@@ -149,26 +141,25 @@
             "showDraftToggle": false
         },
         "pages": {
-            "AnalyticalListPage|Booking": {
-                "entitySet": "Booking",
+            "ListReport|Products": {
+                "entitySet": "Products",
                 "component": {
-                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "name": "sap.suite.ui.generic.template.ListReport",
                     "list": true,
                     "settings": {
                         "condensedTableLayout": true,
-                        "showGoButtonOnFilterBar": true,
-                        "tableType": "AnalyticalTable",
-                        "autoHide": true,
-                        "smartVariantManagement": false,
-                        "tableSettings": {
-                            "multiSelect": false
-                        },
-                        "keyPerformanceIndicators": {}
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true,
+                        "filterSettings": {
+                            "dateSettings": {
+                                "useDateRange": true
+                            }
+                        }
                     }
                 },
                 "pages": {
-                    "ObjectPage|Booking": {
-                        "entitySet": "Booking",
+                    "ObjectPage|Products": {
+                        "entitySet": "Products",
                         "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
                         "component": {
                             "name": "sap.suite.ui.generic.template.ObjectPage"
@@ -187,5 +178,9 @@
     },
     "sap.platform.hcp": {
         "uri": ""
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "sap-products-externproducts"
     }
 }
