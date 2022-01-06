@@ -12,6 +12,8 @@ modules:
 # ----------------MANAGED APPROUTER-----------------
 - name: travel_01daa3f2-dest-content
   type: com.sap.application.content
+  build-parameters:
+    no-source: true
   requires:
   - name: travel_01daa3f2-dest-srv
     parameters:
@@ -38,8 +40,6 @@ modules:
           ServiceKeyName: travel_01daa3f2-uaa-key
           sap.cloud.service: travel_01daa3f2
         existing_destinations_policy: ignore
-  build-parameters:
-    no-source: true
 
 # --------------------STANDALONE APPROUTER MODULE ------------------------
 - name: approuter
@@ -74,13 +74,12 @@ modules:
       target-path: resources/
 - name: travel_01daa3f2
   type: html5
-  path: .
+  path: travel_01daa3f2
   build-parameters:
     build-result: dist
     builder: custom
     commands:
-    - npm install
-    - npm run build:cf
+    - npm run build
     supported-platforms: []
 
     
