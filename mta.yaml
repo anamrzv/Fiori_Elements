@@ -1,0 +1,127 @@
+_schema-version: '3.1'
+ID: fiori_tasks
+version: 1.0.0
+description: "A simple Fiori project."
+
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: false
+
+modules:
+
+# ----------------MANAGED APPROUTER-----------------
+- name: travel_01daa3f2-dest-content
+  type: com.sap.application.content
+  requires:
+  - name: travel_01daa3f2-dest-srv
+    parameters:
+      content-target: true
+  - name: travel_01daa3f2-repo-host
+    parameters:
+      service-key:
+        name: travel_01daa3f2-repo-host-key
+  - name: travel_01daa3f2-uaa
+    parameters:
+      service-key:
+        name: travel_01daa3f2-uaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: travel_01daa3f2_repo_host
+          ServiceInstanceName: travel_01daa3f2-html5-srv
+          ServiceKeyName: travel_01daa3f2-repo-host-key
+          sap.cloud.service: travel_01daa3f2
+        - Authentication: OAuth2UserTokenExchange
+          Name: travel_01daa3f2_uaa
+          ServiceInstanceName: travel_01daa3f2-xsuaa-srv
+          ServiceKeyName: travel_01daa3f2-uaa-key
+          sap.cloud.service: travel_01daa3f2
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+
+# --------------------STANDALONE APPROUTER MODULE ------------------------
+- name: approuter
+  type: approuter.nodejs
+  path: approuter 
+  parameters:
+    buildpack: nodejs_buildpack
+    disk-quota: 512M
+    memory: 512M
+  requires:
+    - name: travel_01daa3f2-uaa
+    - name: travel_01daa3f2-repo-runtime
+    - name: travel_01daa3f2-dest-srv
+
+
+
+ # -------------------- WEBAPP DEPLOYER MODULE ------------------------
+
+- name: travel_01daa3f2-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: travel_01daa3f2-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - travel_01daa3f2.zip
+      name: travel_01daa3f2
+      target-path: resources/
+- name: travel_01daa3f2
+  type: html5
+  path: .
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+
+    
+resources:
+- name: travel_01daa3f2-dest-srv
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        subaccount:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Name: abap-cloud-default_abap-trial
+            Authentication: OAuth2ClientCredentials
+            ProxyType: Internet
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: travel_01daa3f2-dest-srv
+    service-plan: lite
+- name: travel_01daa3f2-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: travel_01daa3f2-xsuaa-srv
+    service-plan: application
+- name: travel_01daa3f2-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: travel_01daa3f2-html5-srv
+    service-plan: app-host
+- name: travel_01daa3f2-repo-runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service-plan: app-runtime
+    service: html5-apps-repo
+

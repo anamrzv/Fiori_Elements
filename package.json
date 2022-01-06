@@ -1,0 +1,40 @@
+{
+    "name": "fiori_tasks",
+    "version": "1.0.0",
+    "description": "Fiori project.",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+      "mbt": "^1.2.7"
+    },
+    "scripts": {
+      "build": "mbt build --mtar=fiori_1.0.0.mtar",
+      "deploy": "cf deploy mta_archives/fiori_1.0.0.mtar",
+      "build:deploy": "run-s build deploy",
+      "undeploy": "cf undeploy test --delete-services --delete-service-keys --delete-service-brokers -f"
+    },
+    "eslintConfig": {
+      "extends": "eslint:recommended",
+      "env": {
+        "es2020": true,
+        "node": true
+      },
+      "globals": {
+        "SELECT": true,
+        "INSERT": true,
+        "UPDATE": true,
+        "DELETE": true,
+        "CREATE": true,
+        "DROP": true,
+        "CDL": true,
+        "CQL": true,
+        "CXL": true,
+        "cds": true
+      },
+      "rules": {
+        "no-console": "off",
+        "require-atomic-updates": "off"
+      }
+    }
+  }
+  

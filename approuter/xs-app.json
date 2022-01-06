@@ -1,0 +1,33 @@
+{
+    "welcomeFile": "index.html",
+    "authenticationMethod": "none",
+    "routes": [
+        {
+            "source": "^/sap/(.*)$",
+            "target": "/sap/$1",
+            "destination": "abap-cloud-default_abap-trial",
+            "authenticationType": "none",
+            "csrfProtection": false,
+            "cacheControl": "no-cache, no-store, must-revalidate"
+        },
+        {
+            "source": "^/resources/(.*)$",
+            "target": "/resources/$1",
+            "authenticationType": "none",
+            "destination": "ui5"
+        },
+        {
+            "source": "^/test-resources/(.*)$",
+            "target": "/test-resources/$1",
+            "authenticationType": "none",
+            "destination": "ui5"
+        },
+        {
+            "source": "^(.*)$",
+            "service": "html5-apps-repo-rt",
+            "authenticationType": "none",
+            "csrfProtection": false,
+            "cacheControl": "no-cache, no-store, must-revalidate"
+        }
+    ]
+}

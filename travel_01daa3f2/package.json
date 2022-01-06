@@ -12,30 +12,28 @@
     ],
     "main": "webapp/index.html",
     "scripts": {
-        "start": "fiori run --open 'test/flpSandbox.html#travel01daa3f2-tile'",
-        "start-local": "fiori run --config ./ui5-local.yaml --open 'test/flpSandbox.html#travel01daa3f2-tile'",
-        "start-noflp": "fiori run --open 'index.html'",
-        "start-variants-management": "fiori run --open \"preview.html?fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
-        "build": "ui5 build -a --clean-dest --include-task=generateManifestBundle generateCachebusterInfo",
-        "deploy": "npm run build && fiori deploy --config ui5-deploy.yaml && rimraf archive.zip",
-        "deploy-config": "fiori add deploy-config",
-        "int-tests": "fiori run --config ./ui5-mock.yaml --open 'test/integration/opaTests.qunit.html'",
-        "start-mock": "fiori run --config ./ui5-mock.yaml --open 'test/flpSandbox.html#travel01daa3f2-tile'",
-        "undeploy": "fiori undeploy --config ui5-deploy.yaml",
-        "deploy-test": "npm run build && fiori deploy --config ui5-deploy.yaml --testMode true"
+        "build": "npm run clean && npm run zip",
+        "zip": "npx bestzip travel_01daa3f2.zip *",
+        "clean": "npx rimraf travel_01daa3f2.zip",
+        "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
+        "build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateManifestBundle generateCachebusterInfo"
     },
     "devDependencies": {
         "@ui5/cli": "^2.11.1",
+        "@sap/ui5-builder-webide-extension": "^1.1.6",
         "@ui5/fs": "^2.0.6",
         "@ui5/logger": "^2.0.1",
         "@sap/ux-ui5-tooling": "1",
         "rimraf": "3.0.2",
         "@sap/ux-specification": "latest",
+        "ui5-task-zipper": "^0.3.1",
         "@sap/ux-ui5-fe-mockserver-middleware": "1"
     },
     "ui5": {
         "dependencies": [
+            "@sap/ui5-builder-webide-extension",
             "@sap/ux-ui5-tooling",
+            "ui5-task-zipper",
             "@sap/ux-ui5-fe-mockserver-middleware"
         ]
     }
