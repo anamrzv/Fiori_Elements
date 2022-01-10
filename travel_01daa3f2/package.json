@@ -12,9 +12,10 @@
     ],
     "main": "webapp/index.html",
     "scripts": {
-        "build": "npm run clean && npm run zip",
+        "build:simple": "npm run clean && npm run zip",
         "zip": "npx bestzip manifest-bundle.zip webapp/manifest.json && npx bestzip travel_01daa3f2.zip *",
-        "clean": "npx rimraf travel_01daa3f2.zip manifest-bundle.zip"
+        "clean": "npx rimraf travel_01daa3f2.zip manifest-bundle.zip",
+        "build": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateManifestBundle generteCachebusterInfo"
     },
     "devDependencies": {
         "@ui5/cli": "^2.11.1",

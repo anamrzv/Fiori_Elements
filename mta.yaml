@@ -97,9 +97,13 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
-          - Name: abap-cloud-default_abap-trial
-            Authentication: OAuth2ClientCredentials
+          - Name: new-abap-trial
+            Authentication: NoAuthentication
             ProxyType: Internet
+            Type: HTTP
+            URL: https://44fbbf39-44b5-48cb-9800-cbb9cbadbedf.abap.us10.hana.ondemand.com
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
           existing_destinations_policy: update
       version: 1.0.0
     service: destination

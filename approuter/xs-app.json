@@ -5,7 +5,7 @@
         {
             "source": "^/sap/(.*)$",
             "target": "/sap/$1",
-            "destination": "abap-cloud-default_abap-trial",
+            "destination": "new-abap-trial",
             "authenticationType": "none",
             "csrfProtection": false,
             "cacheControl": "no-cache, no-store, must-revalidate"
